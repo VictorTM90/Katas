@@ -8,7 +8,7 @@ Examples
 
 function reverseWords(str) {
   let newStr = ""
-  // separar str en palabras y convertirlo en array
+   separar str en palabras y convertirlo en array
   const splitWord = str.split(" ") 
   // Cada elemento del array separarlo, darle la vuelta y volverlo a juntar. Concatenar cada elemento para conseguir String
   splitWord.forEach(elem => newStr +=   " " + elem.split("").reverse().join("") )
@@ -126,4 +126,144 @@ function reverseWords(str) {
         return fib[n-1]
       }
 
-      
+      /*Lot of junior developer can be stuck when they need to change the access permission to a file or a directory in an Unix-like operating systems.
+
+To do that they can use the chmod command and with some magic trick they can change the permissionof a file or a directory. For more information about the chmod command you can take a look at the wikipedia page.
+
+chmod provides two types of syntax that can be used for changing permissions. An absolute form using octal to denote which permissions bits are set e.g: 766. Your goal in this kata is to define the octal you need to use in order to set yout permission correctly.
+
+Here is the list of the permission you can set with the octal representation of this one.
+
+User
+read (4)
+write (2)
+execute (1)
+Group
+read (4)
+write (2)
+execute (1)
+Other
+read (4)
+write (2)
+execute (1)
+The method take a hash in argument this one can have a maximum of 3 keys (owner,group,other). Each key will have a 3 chars string to represent the permission, for example the string rw- say that the user want the permission read, write without the execute. If a key is missing set the permission to ---
+
+Note: chmod allow you to set some special flags too (setuid, setgid, sticky bit) but to keep some simplicity for this kata we will ignore this <one className=""></one> */
+
+// MY SOLUTION
+
+function chmodCalculator(perm) {
+  const {user, group, other} = perm 
+  
+  let response = ""
+  let countUser = 0
+  let countGroup = 0
+  let countOther = 0
+ 
+  if (!user) {
+     response += "0"
+  } else if (!group) {
+     response += "0"
+  } else if (!other) {
+     response += "0"
+  }
+  
+ if (user){ 
+  for (let i= 0; i<user.length; i++){
+    if(user[i] === "r"){
+     countUser += 4
+    } else if (user[i] === "w"){
+       countUser += 2
+    } else if (user[i] === "x"){
+      countUser += 1
+    }else if (user[i] === "-"){
+     countUser += 0
+    }
+  }
+
+ } 
+  if (group){
+    for (let i= 0; i<group.length; i++){
+    
+      if(group[i] === "r"){
+       countGroup +=4
+    } else if (group[i] === "w"){
+       countGroup += 2
+    } else if (group[i] === "x"){
+       countGroup += 1
+    } else if (group[i] === "-"){
+       countGroup += 0
+    } 
+  }
+  } 
+  
+  if (other){
+    for (let i= 0; i<other.length; i++){
+    if(other[i] === "r"){
+      countOther +=4
+    } else if (other[i] === "w"){
+       countOther += 2
+    } else if (other[i] === "x"){
+       countOther += 1
+    } else if (other[i] === "-"){
+      countOther += 0
+    } 
+  }
+  }
+  
+  response = `${countUser}${countGroup}${countOther}`
+ 
+  return response
+}
+
+// SOLUTION TOP => 
+function chmodCalculator(perm) {
+   let octal = p => !p ? 0 : 
+  // evalua la condición y lo multiplica por el booolean que será 1 o 0 según si es TRUE O FALSE. 
+   4 * +(p[0] === 'r')+ 
+   2 * +(p[1] === 'w')+ 
+   1 * +(p[2] === 'x')
+  
+  
+ 
+ return '' + octal(perm.user) + octal(perm.group) + octal(perm.other); 
+ 
+} 
+
+
+/* Well met with Fibonacci bigger brother, AKA Tribonacci.
+
+ As the name may already reveal, it works basically like a Fibonacci, but summing the last 3 (instead of 2) numbers of the sequence to generate the next. And, worse part of it, regrettably I won't get to hear non-native Italian speakers trying to pronounce it :(
+
+ So, if we are to start our Tribonacci sequence with [1, 1, 1] as a starting input (AKA signature), we have this sequence:
+
+ [1, 1 ,1, 3, 5, 9, 17, 31, ...]
+ But what if we started with [0, 0, 1] as a signature? As starting with [0, 1] instead of [1, 1] basically shifts the common Fibonacci sequence by once place, you may be tempted to think that we would get the same sequence shifted by 2 places, but that is not the case and we would get:
+
+ [0, 0, 1, 1, 2, 4, 7, 13, 24, ...]
+ Well, you may have guessed it by now, but to be clear: you need to create a fibonacci function that given a signature array/list, returns the first n elements - signature included of the so seeded sequence.
+
+ Signature will always contain 3 numbers; n will always be a non-negative number; if n == 0, then return an empty array (except in C return NULL) and be ready for anything else which is not clearly specified ;)
+
+ If you enjoyed this kata more advanced and generalized version of it can be found in the Xbonacci kata
+
+ [Personal thanks to Professor Jim Fowler on Coursera for his awesome classes that I really recommend to any math enthusiast and for showing me this mathematical curiosity too with his usual contagious passion :)] */
+
+ //My Solution: 
+
+ function tribonacci(signature,n){
+  
+  if(n===0) return [];
+  if(n===1) return [signature[0]]
+  if(n===2) return signature.slice(0,2)
+  if(n===3) return signature
+  
+  let result=[...signature];
+
+  for( let i = 2; i<n-1; i++ ) {
+    let suma = result[i-2] + result[i-1] + result[i]
+    result.push(suma)
+  }
+  
+  return result
+}
